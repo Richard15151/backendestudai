@@ -41,7 +41,7 @@ def criar_lista(tema,materia,quantidade,dificuldade):
 
         Cada exercício deve possuir um enunciado em um parágrafo curto e ter 4 alternativas de a até d.
         Diversifique as alternativas corretas, para não haver uma sequência grande de mesmas alternativas certas exemplo"b,b,b".
-        Preciso que gere as alternativas e forneça o gabarito com as respostas certas dos exercícios no final da lista.
+        Preciso que gere as alternativas e forneça o gabarito com as respostas certas dos exercícios no final da lista, apenas o corpo da resposta, não traga a alternativa pois já está colocada no front-end
         Certifique-se que o campo "resposta_correta" dentro de cada exercício e o campo "gabarito" global sejam consistentes e se refiram ao texto da alternativa correta.
         
         Devolva no formato JSON se acordo com o modelo de exemplo:
