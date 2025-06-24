@@ -21,11 +21,8 @@ CORS(app)
 
 #=================================================================
 # Passo 3: Configurando a API Key do Gemini
-API_KEYS = [
-	os.getenv("GOOGLE_API_KEY")
-	os.getenv("GOOGLE_API_KEY_CHAVE2")
-	os.getenv("GOOGLE_API_KEY_CHAVE3")
-]
+API_KEY = os.getenv("GOOGLE_API_KEY")
+
 client = genai.Client(api_key=API_KEY)
 
 #=================================================================
@@ -119,36 +116,18 @@ def criar_lista(tema,materia,quantidade,dificuldade):
         }}
         }}
         """
-for idx, key in enumerate(API_KEYS):
-        try:
-            # Configura o client com a chave atual
-            genai.configure(api_key=key)
-            client = genai.Client(api_key=key)
-
-            # Faz a requisição
-            response = client.models.generate_content(
-                model="gemini-2.0-flash",
-                contents=prompt,
-                config={
-                    "response_mime_type": "application/json",
-                }
-            )
-
-            # Decodifica a resposta como JSON
-            response = json.loads(response.text)
-            return response
-
-        except (ResourceExhausted, PermissionDenied) as e:
-            print(f"[Falha] Chave {idx+1} ({key[:6]}...): {e.message}. Tentando próxima...")
-
-        except GoogleAPICallError as e:
-            print(f"[Erro de API] Chave {idx+1}: {e.message}. Tentando próxima...")
-
-        except Exception as e:
-            print(f"[Erro desconhecido] com a chave {idx+1}: {e}. Tentando próxima...")
-
-    # Se todas as chaves falharem
-    raise Exception("Todas as chaves de API falharam.")
+		# Envia a requisição para a API Gemini para gerar a lista.
+    response = client.models.generate_content(
+        model="gemini-2.0-flash",
+        contents=prompt,
+        config={
+        "response_mime_type": "application/json",
+        }
+    )
+    
+    # Tenta decodificar a resposta da API Gemini como JSON.
+    response = json.loads(response.text)
+    return response
 #=========================================================
 # Passo 5: Criando a Rota da API (função completa agora)
 @app.route('/estudar', methods=['POST'])
